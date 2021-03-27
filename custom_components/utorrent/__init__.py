@@ -219,13 +219,3 @@ async def _setup_devices(hass: HomeAssistant, quasar: YandexQuasar):
             device.update(confdevices[did])
 
 
-async def _setup_include(hass: HomeAssistant, entry: ConfigEntry):
-    """Setup additional devices from Yandex account."""
-    config = hass.data[DOMAIN][DATA_CONFIG]
-    if CONF_INCLUDE not in config:
-        return
-
-    for domain in ('climate', 'light', 'remote', 'switch', 'vacuum'):
-        hass.async_create_task(hass.config_entries.async_forward_entry_setup(
-            entry, domain
-        ))
