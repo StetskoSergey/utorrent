@@ -111,7 +111,7 @@ class UTorrentAPI(object):
             if status == 200:
                 torrents = response.json()
             else:
-                print(response.status_code)
+                print(status)
 
         except requests.ConnectionError as error:
             print(error)
@@ -129,7 +129,7 @@ class UTorrentAPI(object):
         if status == 200:
             files = response.json()
         else:
-            print(response.status_code)
+            print(status)
 
         return files
 
@@ -173,7 +173,7 @@ class UTorrentAPI(object):
         if status == 200:
             files = response.json()
         else:
-            print(response.status_code)
+            print(status)
 
         return files
 
@@ -258,7 +258,7 @@ class UTorrentAPI(object):
         }
         try:
             response = requests.get(url, auth=self.auth, cookies=self.cookies, headers=headers)
-            # use utf8 for multi-language 
+            # use utf8 for multi-language
             # default is ISO-8859-1
             response.encoding = 'utf8'
         except requests.ConnectionError as error:
