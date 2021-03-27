@@ -10,7 +10,7 @@ from homeassistant.core import ServiceCall, HomeAssistant
 from homeassistant.helpers import config_validation as cv, discovery
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
-from .core import utils
+from .core import utorrent_api
 
 _LOGGER = logging.getLogger(__name__)
 
