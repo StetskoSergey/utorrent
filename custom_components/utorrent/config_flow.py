@@ -12,7 +12,7 @@ from homeassistant.config_entries import ConfigFlow
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
 from . import DOMAIN
-from .core.utorrent import ListTorrent, LoginResponse
+from .core.util import UtorrentAPI
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,12 +25,12 @@ AUTH_SCHEMA = vol.Schema({
 
 
 
-class YandexStationFlowHandler(ConfigFlow, domain=DOMAIN):
+Class UtorrentService(ConfigFlow, domain=DOMAIN):
     @property
     @lru_cache()
     def utorrent(self):
         session = async_create_clientsession(self.hass)
-        return ListTorrent(session)
+        return UtorrentAPI(session)
 
     async def async_step_import(self, data: dict):
         """Init by component setup. Forward YAML login/pass to auth."""
@@ -69,7 +69,7 @@ class YandexStationFlowHandler(ConfigFlow, domain=DOMAIN):
 
     async def async_step_auth(self, user_input):
         """User submited username and password. Or YAML error."""
-        resp = await self.utorrent.login_username(user_input['host'],
+        resp = await self.utorrent.login_user(user_input['host'],
                                                   user_input['port'],
                                                   user_input['username'],
                                                   user_input['password'])
