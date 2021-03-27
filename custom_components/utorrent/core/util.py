@@ -60,13 +60,28 @@ class TorrentListInfo:
 
 
 class UTorrentAPI(object):
+        
+    base_url = None
+    port = '33635'
+    username = None
+    password = None
+    auth     = None
+    token = None
+    cookies  = None
+    
 
-    def __init__(self, base_url, username, password):
-        self.base_url = base_url
+    def __init__(self, session):
+        self.session = session
+        
+    def login_user(base_url, port, username, password):
+        self.base_url = base_URL
+        self.port = port
         self.username = username
         self.password = password
-        self.auth     = requests.auth.HTTPBasicAuth(self.username, self.password)
-        self.token, self.cookies  = self._get_token()
+        self.auth = 
+        self.token, self.cookies = self._get_token()
+    def login_cookies():
+        pass
 
     def _get_token(self):
         url = self.base_url + '/token.html'
