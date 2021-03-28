@@ -60,28 +60,34 @@ class TorrentListInfo:
 
 
 class UTorrentAPI(object):
-        
+
     base_url = None
-    port = '33635'
+    port = '35653'
     username = None
     password = None
     auth     = None
     token = None
     cookies  = None
-    
+
 
     def __init__(self, session):
         self.session = session
-        
-    def login_user(base_url, port, username, password):
-        self.base_url = base_URL
-        self.port = port
+
+    def login_user(self, base_url, username, password, port = None):
+        self.base_url = 'http://' + base_url + ':' + (port if port else self.port) + '/gui'
+        if port:
+            self.port = port
         self.username = username
         self.password = password
-        self.auth = 
+        self.auth     = requests.auth.HTTPBasicAuth(self.username, self.password)
         self.token, self.cookies = self._get_token()
-    def login_cookies():
-        pass
+        return self._action('list=1')[0]
+
+
+    def login_cookies(self, cookies, token):
+        self.token = token
+        self.cookies = cookies
+        return self._action('list=1')[0]
 
     def _get_token(self):
         url = self.base_url + '/token.html'
@@ -267,6 +273,7 @@ class UTorrentAPI(object):
         return files
 
     def _action(self, path):
+        response = None
         url = '%s/?%s&token=%s' % (self.base_url, path, self.token)
         headers = {
         'Content-Type': "application/json"
@@ -281,4 +288,4 @@ class UTorrentAPI(object):
         except:
             pass
 
-        return response.status_code, response
+        return response.status_code if response else 404, response
